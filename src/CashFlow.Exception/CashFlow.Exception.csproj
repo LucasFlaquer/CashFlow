@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="ResourceErrorMessages.pt-PT.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ResourceErrorMessages.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceErrorMessages.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="ResourceErrorMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

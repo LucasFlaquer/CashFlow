@@ -1,4 +1,5 @@
 using CashFlow.Api.Filters;
+using CashFlow.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -6,6 +7,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMvc(options => options.Filters.Add<ExceptionFilter>());
 var app = builder.Build();
+app.UseMiddleware<CultureMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

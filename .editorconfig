@@ -1,0 +1,4 @@
+# All files
+[*]
+guidelines = 80, 120
+guidelines_style = border: 1px dotted rgba(211, 211, 211, 0.5)

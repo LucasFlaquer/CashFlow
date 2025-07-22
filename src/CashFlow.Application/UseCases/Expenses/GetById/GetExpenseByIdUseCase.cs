@@ -8,11 +8,11 @@ namespace CashFlow.Application.UseCases.Expenses.GetById;
 
 public class GetExpenseByIdUseCase : IGetExpenseByIdUseCase
 {
-    private IExpensesRepository _repository;
+    private IExpensesReadOnlyRepository _repository;
     private IMapper _mapper;
 
     public GetExpenseByIdUseCase(
-        IExpensesRepository repository,
+        IExpensesReadOnlyRepository repository,
         IMapper mapper)
     {
         _repository = repository;

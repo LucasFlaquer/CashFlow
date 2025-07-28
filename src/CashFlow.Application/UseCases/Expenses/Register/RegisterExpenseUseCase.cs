@@ -44,7 +44,7 @@ public class RegisterExpenseUseCase: IRegisterExpenseUseCase
 
     private void Validate(RequestExpenseJson request)
     {
-        var validator = new RegisterExpenseValidator();
+        var validator = new ExpenseValidator();
         var result = validator.Validate(request);
         if (result.IsValid) return;
         var erroMessages = result.Errors.Select(error => error.ErrorMessage).ToList();

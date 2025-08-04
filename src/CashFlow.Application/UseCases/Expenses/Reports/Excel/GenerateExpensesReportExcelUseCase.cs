@@ -5,7 +5,7 @@ namespace CashFlow.Application.UseCases.Expenses.Reports.Excel;
 
 public class GenerateExpensesReportExcelUseCase: IGenerateExpensesReportExcelUseCase
 {
-    public Task<byte[]> Execute(DateOnly month)
+    public async Task<byte[]> Execute(DateOnly month)
     {
         var workbook = new XLWorkbook();
         workbook.Author = "Lucas Flaquer - Cashflow";
@@ -13,6 +13,10 @@ public class GenerateExpensesReportExcelUseCase: IGenerateExpensesReportExcelUse
         workbook.Style.Font.FontName = "Times New Roman";
         var worksheet = workbook.Worksheets.Add(month.ToString("Y"));
         InsertHeader(worksheet);
+        var file = new MemoryStream();
+        workbook.SaveAs(file);
+
+        return file.ToArray();
     }
 
     private void InsertHeader(IXLWorksheet worksheet)

@@ -21,7 +21,7 @@ public class GenerateExpensesReportExcelUseCase: IGenerateExpensesReportExcelUse
         {
             return [];
         }
-        var workbook = new XLWorkbook();
+        using var workbook = new XLWorkbook();
         workbook.Author = "Lucas Flaquer - Cashflow";
         workbook.Style.Font.FontSize = 12;
         workbook.Style.Font.FontName = "Times New Roman";

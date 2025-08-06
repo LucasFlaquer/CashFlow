@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using CashFlow.Application.UseCases.Expenses.Reports.Excel;
+using CashFlow.Application.UseCases.Expenses.Reports.Pdf;
 using CashFlow.Communication.Requests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,19 @@ public class ReportController: ControllerBase
         byte[] file = await useCase.Execute(Month);
         if (file.Length > 0)
             return File(file, MediaTypeNames.Application.Octet, "report.xlsx");
+        return NoContent();
+    }
+
+    [HttpGet("pdf")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetPdf(
+        [FromServices] IGenerateExpensesReportPdfUseCase useCase,
+        [FromHeader] DateOnly Month)
+    {
+        byte[] file = await useCase.Execute(Month);
+        if (file.Length > 0)
+            return File(file, MediaTypeNames.Application.Pdf, "report.pdf");
         return NoContent();
     }
 }

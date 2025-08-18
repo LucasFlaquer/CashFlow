@@ -23,6 +23,15 @@ public class GenerateExpensesReportPdfUseCase: IGenerateExpensesReportPdfUseCase
         if (expenses.Count == 0) return [];
         var document = CreateDocument(month);
         var page = CreatePage(document);
+        // Page header with image
+        var table = page.AddTable();
+        table.AddColumn();
+        table.AddColumn();
+        var row = table.AddRow();
+        row.Cells[0].AddImage("C:\\Users\\lucas.flaquer\\Desktop\\my-image.jpeg");
+        row.Cells[1].AddParagraph("Hey, Lucas Flaquer");
+        row.Cells[1].Format.Font = new Font { Name = FontHelper.RALLEWAY_BLACK, Size = 16 };
+        // PageHeader
         var paragraph = page.AddParagraph();
         var title = string.Format(ResourceReportGenerationMessage.TOTAL_SPENT_IN, month.ToString("Y"));
         paragraph.AddFormattedText(title, new Font { Name = FontHelper.RALLEWAY_REGULAR, Size = 15 });

@@ -37,6 +37,7 @@ public class GenerateExpensesReportPdfUseCase: IGenerateExpensesReportPdfUseCase
         row.Cells[1].VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
         // PageHeader
         var paragraph = page.AddParagraph();
+        paragraph.Format.SpaceBefore = "40";
         var title = string.Format(ResourceReportGenerationMessage.TOTAL_SPENT_IN, month.ToString("Y"));
         paragraph.AddFormattedText(title, new Font { Name = FontHelper.RALLEWAY_REGULAR, Size = 15 });
         paragraph.AddLineBreak();

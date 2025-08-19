@@ -26,11 +26,15 @@ public class GenerateExpensesReportPdfUseCase: IGenerateExpensesReportPdfUseCase
         // Page header with image
         var table = page.AddTable();
         table.AddColumn();
-        table.AddColumn();
+        table.AddColumn("300");
         var row = table.AddRow();
-        row.Cells[0].AddImage("C:\\Users\\lucas.flaquer\\Desktop\\my-image.jpeg");
+        var img = row.Cells[0].AddImage("C:\\Users\\lucas.flaquer\\Desktop\\sypro.jpeg");
+        img.Width = "62";
+        img.Height = "62";
+        img.LockAspectRatio = true;
         row.Cells[1].AddParagraph("Hey, Lucas Flaquer");
         row.Cells[1].Format.Font = new Font { Name = FontHelper.RALLEWAY_BLACK, Size = 16 };
+        row.Cells[1].VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
         // PageHeader
         var paragraph = page.AddParagraph();
         var title = string.Format(ResourceReportGenerationMessage.TOTAL_SPENT_IN, month.ToString("Y"));

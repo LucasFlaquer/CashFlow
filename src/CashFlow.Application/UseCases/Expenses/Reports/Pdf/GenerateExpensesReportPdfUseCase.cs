@@ -1,11 +1,12 @@
-﻿using CashFlow.Application.UseCases.Expenses.Reports.Pdf.Fonts;
+﻿using CashFlow.Application.UseCases.Expenses.Reports.Pdf.Colors;
+using CashFlow.Application.UseCases.Expenses.Reports.Pdf.Fonts;
 using CashFlow.Domain.Reports;
 using CashFlow.Domain.Repositories.Expenses;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharp.Fonts;
 using System.Reflection;
-using System.Security.AccessControl;
 
 namespace CashFlow.Application.UseCases.Expenses.Reports.Pdf;
 
@@ -28,6 +29,26 @@ public class GenerateExpensesReportPdfUseCase: IGenerateExpensesReportPdfUseCase
         CreateHeaderWithProfilePhotoAndName(page);
         var totalExpenses = expenses.Sum(expense => expense.Amount);
         CreateTotalSpentSection(page, month, totalExpenses);
+        foreach(var expense in expenses)
+        {
+            var table = CreateExpenseTable(page);
+            var row = table.AddRow();
+            row.Height = 25;
+            row.Cells[0].AddParagraph(expense.Title);
+            row.Cells[0].Format.Font = new Font { Name = FontHelper.RALLEWAY_BLACK, Size = 14, Color = ColorsHelper.BLACK };
+            row.Cells[0].Shading.Color = ColorsHelper.RED_LIGHT;
+            row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
+            row.Cells[0].MergeRight = 2;
+            row.Cells[0].Format.LeftIndent = 20;
+            row.Cells[3].AddParagraph(ResourceReportGenerationMessage.AMOUNT);
+            row.Cells[3].Format.Font = new Font { Name = FontHelper.RALLEWAY_BLACK, Size = 14, Color = ColorsHelper.WHITE };
+            row.Cells[3].Shading.Color = ColorsHelper.RED_DARK;
+            row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
+
+            row = table.AddRow();
+            row.Height = 30;
+            row.Borders.Visible = false;
+        }
         return RenderDocument(document);
     }
 
@@ -95,5 +116,15 @@ public class GenerateExpensesReportPdfUseCase: IGenerateExpensesReportPdfUseCase
         paragraph.AddLineBreak();
         
         paragraph.AddFormattedText($"{totalExpenses}{CURRENCY_SYMBOL}", new Font { Name = FontHelper.WORKSANS_BLACK, Size = 50 });
+    }
+
+    private Table CreateExpenseTable(Section page)
+    {
+        var table = page.AddTable();
+        table.AddColumn("195").Format.Alignment = ParagraphAlignment.Left;
+        table.AddColumn("80").Format.Alignment = ParagraphAlignment.Center;
+        table.AddColumn("120").Format.Alignment = ParagraphAlignment.Center;
+        table.AddColumn("120").Format.Alignment = ParagraphAlignment.Right;
+        return table;
     }
 }
